@@ -10,6 +10,11 @@ public class Hand : MonoBehaviour
     [SerializeField]
     private float hoverOffset = 30f;
 
+    [SerializeField]
+    private Card cardPrefab;
+
+    private List<Card> cards = new();
+
     private Card hoverCard;
 
     public void SetHoverCard(Card card)
@@ -45,6 +50,30 @@ public class Hand : MonoBehaviour
 
             card.anchoredPosition =
                 new Vector2(x, y);
+        }
+    }
+
+    public void AddCard()
+    {
+        Card card = Instantiate(cardPrefab, transform);
+
+        cards.Add(card);
+
+        RefreshHand();
+    }
+
+    private void RefreshHand()
+    {
+        int count = cards.Count;
+        float spacing = 150f;
+
+        float totalWidth = (count - 1) * spacing;
+        float startX = -totalWidth / 2f;
+
+        for (int i = 0; i < count; i++)
+        {
+            cards[i].transform.localPosition =
+                new Vector3(startX + i * spacing, 0, 0);
         }
     }
 }
